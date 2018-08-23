@@ -1,0 +1,9 @@
+import requests
+from bs4 import BeautifulSoup
+url = 'http://www.pm25x.com/city/beijing.htm'
+html = requests.get(url)
+print(html.text)
+sp = BeautifulSoup(html.text,'html.parser')
+data = sp.select('.aqivalue')
+pm25 = data[0].text
+print("pm2.5:"+pm25)
