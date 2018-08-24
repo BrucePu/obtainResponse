@@ -1,0 +1,47 @@
+import requests,os
+from bs4 import BeautifulSoup
+from urllib.request import urlopen
+
+url = 'http://www.shijiebang.com/'
+
+html = requests.get(url)  #获取网页源码
+html.encoding = "utf-8"   #设置源码内容的编码格式
+sp = BeautifulSoup(html.text,'html.parser')   #将源码解析到sp对象
+
+#创建images目录保存图片  
+images_dir = "images/"   #设置目的文件夹
+if not os.path.exists(images_dir):    #判断目的文件夹是否存在
+    os.mkdir(images_dir)#创建目的文件
+    
+all_links = sp.find_all(['a','img'])   #取得所有<a>和<img>标签
+for link in all_links:
+    #抓取 src 和 href属性内容
+    src = link.get('src') #把src属性值存入src对象
+    href = link.get('href') #把href属性值存入href对象
+    attrs = [src,href]      #把src和href放入一个列表
+    for attr in attrs:
+        #如果attr不为空且其中包含.jpg或.png关键词
+        if attr !=None and ('.jpg' in attr or '.png' in attr):
+            #则取出这个链接到full_path变量
+            full_path = attr            
+            filename = full_path.split('/')[-1]    #取得图片全名  
+            ext = filename.split('.')[-1]          #取得扩展名
+            filename = filename.split('.')[-2]     #取得主文件名
+            if 'jpg' in ext: filename = filename+'.jpg'
+            else:file = filename+'png'
+            print(filename)
+            #保存图片
+            try:
+                image = urlopen(full_path)
+                f = open(os.path.join(images_dir,filename),'wb')
+                f.write(image.read())
+                f.close()
+            except:
+                print("{}无法读取！".format(filename))
+             
+                
+                
+                
+                
+                
+                
