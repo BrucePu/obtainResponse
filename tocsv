@@ -1,0 +1,18 @@
+import pymysql
+import csv
+
+
+#取出所有词语
+db = pymysql.connect(host = '116.196.123.6',user='root',password='823930914',port=3306,db='spiders')
+cursor = db.cursor()
+sql = 'SELECT * FROM jianada1'
+cursor.execute(sql)     
+datas = cursor.fetchall()
+for row in datas:
+    list1 = [row[1]]
+    out = open('C:/Users/ply19/Desktop/danmai.csv','a', newline='')
+    #设定写入模式
+    csv_write = csv.writer(out,dialect='excel')
+    #写入具体内容
+    csv_write.writerow(list1)
+print("write over")
