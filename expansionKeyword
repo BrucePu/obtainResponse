@@ -1,0 +1,136 @@
+import pymysql
+
+
+'''创建数据库
+db = pymysql.connect(host = '116.196.123.6',user='root',password='823930914',port=3306)
+cursor = db.cursor()
+cursor.execute('SELECT VERSION()')
+data = cursor.fetchone()
+print('Database version:',data)
+cursor.execute("CREATE DATABASE spiders DEFAULT CHARSET utf8")
+db.close()
+'''
+
+
+'''
+#查
+db = pymysql.connect(host = '116.196.123.6',user='root',password='823930914',port=3306,db='spiders')
+cursor = db.cursor()
+sql = 'SELECT * FROM jianada WHERE id = 1'
+cursor.execute(sql)
+data = cursor.fetchone()
+print(data)
+
+
+#增
+db = pymysql.connect(host = '116.196.123.6',user='root',password='823930914',port=3306,db='spiders')
+cursor = db.cursor()
+sql = "insert into jianada(id,v) values(null,'ceshi')"
+cursor.execute(sql)
+db.commit()
+
+#存数据库
+            db = pymysql.connect(host = '116.196.123.6',user='root',password='823930914',port=3306,db='spiders')
+            cursor = db.cursor()
+            sql = "insert into jianada(id,v) values(null,%s)"
+            cursor.execute(sql,destnation)
+            db.commit()
+'''
+country = "加拿大"
+space =" "
+arrs = ["旅游",
+        "旅行",
+        "定制旅游",
+        "定制旅行",
+        "高端旅游",
+        "高端旅行",
+        "日游",
+        "旅游费用",
+        "游",
+        "旅游旅游",
+        "旅行社",
+        "深度游",
+        "最佳路线",
+        "旅游路线",
+        "旅游",
+        "旅行",
+        "之旅",
+        "一日游",
+        "几月份去最好",
+        "旅行多少钱",
+        "日游多少钱",
+        "旅游报价",
+        "旅行报价",
+        "报价",
+        "最佳时间",
+        "旅游季节",
+        "自驾游",
+        "行程",
+        "最佳旅游时间",
+        "旅行计划",
+        "旅游价格",
+        "要多少钱",
+        "旅行社价格",
+        "十日游",
+        "要多少钱"
+        ]
+
+    
+    
+    
+
+#取出所有词语
+db = pymysql.connect(host = '116.196.123.6',user='root',password='823930914',port=3306,db='spiders')
+cursor = db.cursor()
+for arr in arrs:
+        vv = country+arr
+        sql = "insert into jianada1(id,v) values(null,%s)"
+        cursor.execute(sql,vv)
+        db.commit()
+        
+sql = 'SELECT * FROM jianada'
+cursor.execute(sql)
+datas = cursor.fetchall()
+for row in datas:
+    #print(row[0])
+    #修改对应id的v1
+    for arr in arrs:
+        vv = row[1]+arr
+        sql = "insert into jianada1(id,v) values(null,%s)"
+        cursor.execute(sql,vv)
+        db.commit()
+    for arr in arrs:
+        vv = country+row[1]+arr
+        sql = "insert into jianada1(id,v) values(null,%s)"
+        cursor.execute(sql,vv)
+        db.commit()
+
+print("write ovser")
+   
+
+
+
+
+
+
+'''
+$database_connection = null;
+function get_connection(){
+    //$hostname = "localhost"; //数据库服务器主机名,可以用IP代替
+    $hostname = "116.196.123.6"; //数据库服务器主机名,可以用IP代替
+    $database = "news"; //数据库名
+    $username = "root"; //数据库服务器用户名
+    $password = "823930914"; //数据库服务器密码
+    //$password = ""; //数据库服务器密码
+    global $database_connection;
+    $database_connection = @mysql_connect($hostname, $username, $password) or die(mysql_error()); //连接数据库服务器
+    mysql_query("set names 'gbk'");//设置字符集
+    @mysql_select_db($database, $database_connection) or die(mysql_error());
+}
+function close_connection(){
+    global $database_connection;
+    if($database_connection){
+        mysql_close($database_connection) or die(mysql_error());
+    }
+}
+'''
